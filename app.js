@@ -87,11 +87,7 @@ const dropDownListOptions = (event) => {
 
 const getSelectedValue = () => {
   const selects = document.getElementById('select-status').value;
-  // let value = '';
-  // if(selects !== event.target.options[0].value){
-  //   value = selects;
-  // }
-  // return value;
+  
   console.log(selects);
 }
 
@@ -114,30 +110,3 @@ function init(){
   dropDownListOptions(event);
   getCheckBoxIDs();
 }
-
-
-
-
-
-
-
-
-
-
-
-// const tags = document.getElementsByClassName('popup');
-// const selectIDs = [];
-
-// for(let i = 0; i < tags.length; i++){
-//   selectIDs.push(tags[i].id);   
-// }
-
-// selectIDs.forEach((id, index) => {
-//   document.getElementById(id).addEventListener('click', () => {
-//     document.getElementById('select-status').onchange = () => {
-//       const selects = document.getElementById('select-status').value;
-//       console.log(id, index, selects);
-//     };
-//   });
-// });
-     
