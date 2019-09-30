@@ -21,16 +21,84 @@
 .grid-row {
   /* border: 1px solid blue; */
   margin: 5px 5px;
-  font-size: 20px;
+  font-size: 1.2em;
   display: grid;
-  grid-template-columns: auto 20% 10%;
+  grid-template-columns: auto 20% 5%;
+  /* grid-template-rows: auto auto auto; */
   grid-gap: 5%;
-  height: 40px;
 }
 
 .grid-column {
-  margin: 1px 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6vh;
   background-color: #FFE4E1;
+}
+
+#col2 {
+  background-color: lightgray;
+}
+
+#col2 > .popup {
+  left: 5%;
+  display: flex;   /* fix this later on */
+}
+
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 300%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 60%; /* based on the div */
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
 }
 
 ol {
@@ -50,6 +118,6 @@ th, td {
   text-align: center;
 }
 
-div form, button {
+div > form, button {
   display: inline-block;
 }
