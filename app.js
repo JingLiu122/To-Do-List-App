@@ -50,7 +50,7 @@ function listsDisplayListener() {
     rowTemplate += columnTemplate;
     rowTemplate += "</div>";
   });
-  document.getElementById("app").innerHTML = rowTemplate;
+  document.getElementById("box1").innerHTML = rowTemplate;
 }
 
 // this function is getting all the checkbox ids,
