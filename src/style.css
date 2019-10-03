@@ -14,13 +14,13 @@
   grid-auto-rows: minmax(100px, auto);
 }
 
-.do-to-list-box {
+#to-do-list-box {
   border: 1px solid rgba(0, 0, 0, 0.8);
   margin: 0 5px;
   align-self: start;
 }
 
-.complete-list-box {
+#done-list-box {
   border: 1px solid rgba(0, 0, 0, 0.8);
   margin: 0 5px;
   align-self: start;
@@ -31,8 +31,7 @@
   margin: 5px 5px;
   font-size: 1.2em;
   display: grid;
-  grid-template-columns: auto 20% 5%;
-  /* grid-template-rows: auto auto auto; */
+  grid-template-columns: auto 15%;
   grid-gap: 5%;
 }
 
@@ -71,11 +70,24 @@ div input {
   font-size: 1em;
 }
 
-div button {
+div > button {
   height: 2.4rem;
   width: 4rem;
   margin: 0 2%;
   background-color: lightgreen;
   font-size: 1rem;
   border-radius: 5%;
+}
+
+.grid-column > button {
+  height: 1.65rem;
+  width: 2rem;
+  background-color: lightseagreen;
+  border-radius: 10%;
+  margin-right: 10%;
+}
+
+.grid-column > input {
+  width: 1rem;
+  height: 1rem;;
 }
