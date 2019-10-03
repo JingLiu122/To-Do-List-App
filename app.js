@@ -49,7 +49,7 @@ const updateData = (node, value) => {
         lists.splice(index, 1);
       }
     });
-    updateDoneListsUI(value);
+    updateDoneListsUI(node);
   }else{
     let list = {
       todo: value,
@@ -60,51 +60,20 @@ const updateData = (node, value) => {
 
   document.getElementById('to-do-list-buttons').removeEventListener('click', updateData);
   document.getElementById('done-list-buttons').removeEventListener('click', updateData);
-  init();
 }
 
+// to rendering the initial list
 function listsDisplayListener() {
   lists.forEach((list, index) => {
-    const node = domTemplate(list.todo, '&#8594;', '#to-do-list-buttons');
+    const node = domTemplate(list.todo, '&#8594;', 'to-do-list-buttons');
     ToDoListsDOM.appendChild(node);
   });
 }
 
-const updateDoneListsUI = (value) => {
-  // console.log(CompleteListsDOM);
-  if(Object.keys(done_lists[0]).length !== 0){
-    // create row node
-    const row_node = document.createElement('DIV');
-    row_node.setAttribute("class", "grid-row");
-
-    // create col1 node
-    const col_node1 = document.createElement('DIV');
-    col_node1.setAttribute('class', 'grid-column');
-    // const text_node = document.createTextNode(done_lists[0][Object.keys(done_lists[0])]);
-    const text_node = document.createTextNode(value);
-    col_node1.appendChild(text_node);
-
-    // create col2 node
-    const col_node2 = document.createElement('DIV');
-    col_node2.setAttribute('class', 'grid-column');
-    col_node2.setAttribute('id', 'done-list-buttons');
-  
-    const moveBtn = document.createElement('BUTTON');
-    moveBtn.setAttribute('type', 'submit');
-    moveBtn.innerHTML = '&#8592;';
-    
-    const delBtn = document.createElement('INPUT');
-    delBtn.setAttribute('type', 'checkbox');
-    delBtn.setAttribute('id', 'delBtn');
-
-    col_node2.appendChild(moveBtn);
-    col_node2.appendChild(delBtn);
-    // end of col2 node
-
-    row_node.appendChild(col_node1);
-    row_node.appendChild(col_node2);
-    CompleteListsDOM.appendChild(row_node);
-  }
+const updateDoneListsUI = (node) => {
+  node.getElementsByTagName('button')[0].innerHTML = '&#8592;'; 
+  const first_child = document.getElementById('done-list-box').childNodes[0];
+  CompleteListsDOM.insertBefore(node, first_child);
 }
 
 const updateToDoListsUI = (node) => {
