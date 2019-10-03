@@ -68,23 +68,6 @@ function listsDisplayListener() {
     const node = domTemplate(list.todo, '&#8594;', '#to-do-list-buttons');
     ToDoListsDOM.appendChild(node);
   });
-  
-  // let rowTemplate = '';
-  // let columnTemplate = '';
-
-  // lists.forEach((list, i) => {
-  //   let col = 0;
-  //   columnTemplate = '';
-
-  //   rowTemplate += '<div class="grid-row" id="row' + (i+1) + '">';
-  //   columnTemplate += '<div class="grid-column" id="col' + (col+1) + '">' + list.todo + '</div>';  
-  //   columnTemplate += '<div class="grid-column" id="to-do-list-buttons">' + 
-  //   '<button type="submit">&#8594;</button>' +
-  //   '<input type="checkbox" id="delBtn' + (i+1) + '">' + '</div>';
-  //   rowTemplate += columnTemplate;
-  //   rowTemplate += "</div>";
-  // });
-  // document.getElementById("to-do-list-box").innerHTML = rowTemplate;
 }
 
 const updateDoneListsUI = (value) => {
