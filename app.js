@@ -4,65 +4,26 @@ const lists = [
   {todo: '100 squats'},
   {todo: '10km running'}
 ];
-const done_lists = [{}];
+// const done_lists = [{}];
 
 const ToDoListsDOM = document.querySelector('#to-do-list-box');
 const CompleteListsDOM = document.querySelector("#done-list-box");
 
-// add data to the lists array of objects.
+// To add data to the left UI dom
 const addData = () => {
   const data = document.getElementById("addListItem").value;
-  // let list = {
-  //   todo: data,
-  // };
-  // lists.push(list);
-  // document.getElementById("addListItem").value = "";
-
-  const node = domTemplate(data, '&#8594;', '#to-do-list-buttons');
-  const first_child = document.getElementById('to-do-list-box').childNodes[0];
-  ToDoListsDOM.insertBefore(node, first_child);
-}
-
-// remove data from the lists based on the clicked checkbox button
-const removeData = (ev) => {
-  const id = ev.target.id;
-  const index = parseInt(id.charAt(id.length-1))-1;
-  lists.splice(index, 1);
-  
+  if(data == ''){
+    document.getElementById('addBtn').setAttribute('disabled', true);
+    document.getElementById('addBtn').removeAttribute("disabled");
+  }else{
+    const node = domTemplate(data, '&#8594;', 'to-do-list-buttons');  // create a row node
+    const first_child = document.getElementById('to-do-list-box').childNodes[0];
+    ToDoListsDOM.insertBefore(node, first_child);
+  }
   init();
 }
 
-const updateData = (node, value) => {
-  if(node.parentNode.id == 'to-do-list-box'){
-    // append the clicked-row-value to the done-lists
-    if(Object.keys(done_lists[0]).length == 0){
-      done_lists[0][value] = value;
-    }else{
-      const temp = {
-        [value]: value,
-      }
-      done_lists.push(temp);
-    }
-    // remove an element based on object property
-    lists.forEach((list, index) => {
-      if(list.todo == value){
-        lists.splice(index, 1);
-      }
-    });
-    updateDoneListsUI(node);
-  }else{
-    let list = {
-      todo: value,
-    };
-    lists.push(list);
-    updateToDoListsUI(node);
-  }
-
-  // document.getElementById('to-do-list-buttons').removeEventListener('click', updateData);
-  // document.getElementById('done-list-buttons').removeEventListener('click', updateData);
-}
-
-// to rendering the initial list
+// To render the inital list data (dummy data)
 function listsDisplayListener() {
   lists.forEach((list, index) => {
     const node = domTemplate(list.todo, '&#8594;', 'to-do-list-buttons');
@@ -70,54 +31,50 @@ function listsDisplayListener() {
   });
 }
 
+// A function to update the right UI
 const updateDoneListsUI = (node) => {
   node.getElementsByTagName('button')[0].innerHTML = '&#8592;'; 
+  const n = node.getElementsByClassName('grid-column')[1];
+  n.setAttribute('id', 'done-list-buttons');
   const first_child = document.getElementById('done-list-box').childNodes[0];
   CompleteListsDOM.insertBefore(node, first_child);
+  init();
 }
 
+// A function to update the left UI
 const updateToDoListsUI = (node) => {
   node.getElementsByTagName('button')[0].innerHTML = '&#8594;';  // changed back the arrow button
+  const n = node.getElementsByClassName('grid-column')[1];
+  n.setAttribute('id', 'to-do-list-buttons');
   ToDoListsDOM.appendChild(node); 
+  init();
 }
 
-// a listener function to listen the done button
+// A listener function to listen the done button
 const doneButtonsListener = () => {
   const data = document.querySelectorAll('#to-do-list-buttons');
   // console.log(data[0].childNodes[0]);
   Object.entries(data).forEach(([key, val]) => {    // ES6 to loop through an object
     val.childNodes[0].addEventListener('click', () => {
       // console.log(val.parentNode.innerText.split('\n')[0]);
-      updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
+      // updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
+      updateDoneListsUI(val.parentNode);
     });
   });
 }
 
+// A listener function to listen the undone button
 const undoneButtonsListener = () => {
   const data = document.querySelectorAll('#done-list-buttons');
   Object.entries(data).forEach(([key, val]) => {    
     val.childNodes[0].addEventListener('click', () => {
-      updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
+      // updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
+      updateToDoListsUI(val.parentNode);
     });
   });
 }
 
-// this function is getting all the checkbox ids,
-// and then make an event listener to listen all checkbox clicks
-function getCheckBoxIDs() {
-  const tags = document.getElementsByTagName('INPUT');  // an object
-  const btnIDs = [];
-  for(let i = 0; i < tags.length; i++){
-    if(tags[i].getAttribute('type') === 'checkbox'){
-      btnIDs.push(tags[i].id);   
-    }
-  }
-
-  // btnIDs.forEach((id, index) => {
-  //   document.getElementById(id).addEventListener('click', removeData);
-  // });
-}
-
+// A listener function to keep listening delete buttons
 const deleteButtonsListener = () => {
   const data = document.getElementsByTagName('INPUT');
   Object.entries(data).forEach(([key, val]) => {    
@@ -131,7 +88,7 @@ const deleteButtonsListener = () => {
   });
 }
 
-// to generate a node
+// A function to generate the dom
 const domTemplate = (value, btn_value, container_id) => {
   // create row node
   const row_node = document.createElement('DIV');
@@ -170,12 +127,12 @@ const domTemplate = (value, btn_value, container_id) => {
 An initial event for the browser to finish reading and loading all HTMLs into the DOM first, and then 
 perform other events.
 ============================================================================================================*/
-document.addEventListener('DOMContentLoaded', init);  
+document.addEventListener('DOMContentLoaded', init); 
+listsDisplayListener();
 function init(){
-  listsDisplayListener();
-  document.getElementById("addBtn").addEventListener("click", addData);
   doneButtonsListener();
   undoneButtonsListener();
   deleteButtonsListener();
+  document.getElementById("addBtn").addEventListener("click", addData);
 }
  
