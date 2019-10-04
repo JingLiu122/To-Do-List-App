@@ -58,8 +58,8 @@ const updateData = (node, value) => {
     updateToDoListsUI(node);
   }
 
-  document.getElementById('to-do-list-buttons').removeEventListener('click', updateData);
-  document.getElementById('done-list-buttons').removeEventListener('click', updateData);
+  // document.getElementById('to-do-list-buttons').removeEventListener('click', updateData);
+  // document.getElementById('done-list-buttons').removeEventListener('click', updateData);
 }
 
 // to rendering the initial list
@@ -81,10 +81,12 @@ const updateToDoListsUI = (node) => {
   ToDoListsDOM.appendChild(node); 
 }
 
+// a listener function to listen the done button
 const doneButtonsListener = () => {
   const data = document.querySelectorAll('#to-do-list-buttons');
+  // console.log(data[0].childNodes[0]);
   Object.entries(data).forEach(([key, val]) => {    // ES6 to loop through an object
-    val.addEventListener('click', () => {
+    val.childNodes[0].addEventListener('click', () => {
       // console.log(val.parentNode.innerText.split('\n')[0]);
       updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
     });
@@ -94,7 +96,7 @@ const doneButtonsListener = () => {
 const undoneButtonsListener = () => {
   const data = document.querySelectorAll('#done-list-buttons');
   Object.entries(data).forEach(([key, val]) => {    
-    val.addEventListener('click', () => {
+    val.childNodes[0].addEventListener('click', () => {
       updateData(val.parentNode, val.parentNode.innerText.split('\n')[0]);
     });
   });
@@ -114,6 +116,19 @@ function getCheckBoxIDs() {
   // btnIDs.forEach((id, index) => {
   //   document.getElementById(id).addEventListener('click', removeData);
   // });
+}
+
+const deleteButtonsListener = () => {
+  const data = document.getElementsByTagName('INPUT');
+  Object.entries(data).forEach(([key, val]) => {    
+    if(val.getAttribute('type') === 'checkbox'){
+      val.addEventListener('click', () => {
+        const parent = val.parentNode.parentNode;
+        console.log('Row: ' + parent.innerText.split('\n')[0] + ', delete button has been clicked!');
+        parent.remove();
+      });
+    }
+  });
 }
 
 // to generate a node
@@ -161,40 +176,6 @@ function init(){
   document.getElementById("addBtn").addEventListener("click", addData);
   doneButtonsListener();
   undoneButtonsListener();
-  getCheckBoxIDs();
+  deleteButtonsListener();
 }
-
-
-
-
-
-
-
-
-
-// let rowTemplate = '', columnTemplate = '';
-// const row_doms = document.querySelector("#done-list-box").querySelectorAll('.grid-row');
-// // Object.entries(row_doms).forEach(([key, val]) => {
-// //   console.log(key, val);
-// // });
-// if(done_lists.length > 1){
-//   // do the condition rendering here
-//   done_lists.forEach((list, index) => {
-//     // if(row_doms[index-1].innerText == list[Object.keys(list)]){
-//     //   console.log('yea they are the same');
-//     // }
-//     // if(index > 0){
-//       rowTemplate += '<div class="grid-row">';
-//       columnTemplate += '<div class="grid-column">' + list[Object.keys(list)] + '</div>';  
-//       columnTemplate += '<div class="grid-column" id="to-do-list-buttons">' + 
-//       '<button type="submit" >&#8593;</button>' +
-//       '<input type="checkbox" id="delBtn' + (index+1) + '">' + '</div>';
-//       rowTemplate += columnTemplate;
-//       rowTemplate += "</div>";       
-    
-//   });
-// }
-
-// document.getElementById("done-list-box").innerHTML = rowTemplate;
-
  
