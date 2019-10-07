@@ -2,9 +2,9 @@ const lists = [
   {todo: '100 push-ups'},
   {todo: '100 sit-ups'},
   {todo: '100 squats'},
-  {todo: '10km running'}
+  {todo: '10km running'},
+  {todo: 'Read Eloquent JavaScript'}
 ];
-// const done_lists = [{}];
 
 const ToDoListsDOM = document.querySelector('#to-do-list-box');
 const CompleteListsDOM = document.querySelector("#done-list-box");
