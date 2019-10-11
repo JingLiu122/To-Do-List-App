@@ -1,10 +1,13 @@
-const lists = [
-  {todo: '100 push-ups'},
-  {todo: '100 sit-ups'},
-  {todo: '100 squats'},
-  {todo: '10km running'},
-  {todo: 'Read Eloquent JavaScript'}
-];
+import Model from './modules/Model.js';
+import {domTemplate} from './modules/lib/utils.js';
+
+// const lists = [
+//   {todo: '100 push-ups'},
+//   {todo: '100 sit-ups'},
+//   {todo: '100 squats'},
+//   {todo: '10km running'},
+//   {todo: 'Read Eloquent JavaScript'}
+// ];
 
 const ToDoListsDOM = document.querySelector('#to-do-list-box');
 const CompleteListsDOM = document.querySelector("#done-list-box");
@@ -75,64 +78,89 @@ const undoneButtonsListener = () => {
 }
 
 // A listener function to keep listening delete buttons
-const deleteButtonsListener = () => {
-  const data = document.getElementsByTagName('INPUT');
-  Object.entries(data).forEach(([key, val]) => {    
-    if(val.getAttribute('type') === 'checkbox'){
-      val.addEventListener('click', () => {
-        const parent = val.parentNode.parentNode;
-        console.log('Row: ' + parent.innerText.split('\n')[0] + ', delete button has been clicked!');
-        parent.remove();
-      });
-    }
-  });
-}
-
-// A function to generate the dom
-const domTemplate = (value, btn_value, container_id) => {
-  // create row node
-  const row_node = document.createElement('DIV');
-  row_node.setAttribute("class", "grid-row");
-
-  // create col1 node
-  const col_node1 = document.createElement('DIV');
-  col_node1.setAttribute('class', 'grid-column');
-  // const text_node = document.createTextNode(done_lists[0][Object.keys(done_lists[0])]);
-  const text_node = document.createTextNode(value);
-  col_node1.appendChild(text_node);
-
-  // create col2 node
-  const col_node2 = document.createElement('DIV');
-  col_node2.setAttribute('class', 'grid-column');
-  col_node2.setAttribute('id', container_id);
-
-  const moveBtn = document.createElement('BUTTON');
-  moveBtn.setAttribute('type', 'submit');
-  moveBtn.innerHTML = btn_value;
-  
-  const delBtn = document.createElement('INPUT');
-  delBtn.setAttribute('type', 'checkbox');
-
-  col_node2.appendChild(moveBtn);
-  col_node2.appendChild(delBtn);
-  // end of col2 node
-
-  row_node.appendChild(col_node1);
-  row_node.appendChild(col_node2);
-
-  return row_node;
-}
+// const deleteButtonsListener = () => {
+//   const data = document.getElementsByTagName('INPUT');
+//   Object.entries(data).forEach(([key, val]) => {    
+//     if(val.getAttribute('type') === 'checkbox'){
+//       val.addEventListener('click', () => {
+//         const parent = val.parentNode.parentNode;
+//         console.log('Row: ' + parent.innerText.split('\n')[0] + ', delete button has been clicked!');
+//         parent.remove();
+//       });
+//     }
+//   });
+// }
 
 /*============================================================================================================
 An initial event for the browser to finish reading and loading all HTMLs into the DOM first, and then 
 perform other events.
 ============================================================================================================*/
-document.addEventListener('DOMContentLoaded', init); 
-listsDisplayListener();
-function init(){
-  doneButtonsListener();
-  undoneButtonsListener();
-  deleteButtonsListener();
-  document.getElementById("addBtn").addEventListener("click", addData);
+// document.addEventListener('DOMContentLoaded', init); 
+// listsDisplayListener();
+// function init(){
+//   doneButtonsListener();
+//   undoneButtonsListener();
+//   deleteButtonsListener();
+//   document.getElementById("addBtn").addEventListener("click", addData);
+// }
+
+let model = new Model();
+
+function updateDisplay(data){
+  const todoListBox = document.getElementById('to-do-list-box');
+  todoListBox.innerHTML = '';
+  // let element = data[data.length-1];
+  if(data.length > 0){ 
+    todoListBox.className = "border";
+  }
+  data.forEach((element, index) => {
+    const rowNode = domTemplate(element, '&#8594;', deleteHandler);
+    todoListBox.insertBefore(rowNode, todoListBox.firstElementChild);
+  });
 }
- 
+
+function deleteHandler(id){
+  // console.log('Row: ' + e.target.dataset.id + ', delete button has been clicked!');
+  // model.removeElement(element.id);
+  // console.log(model.getAllElements());
+  // row_node.remove();
+  model.removeElement(id);
+  updateDisplay(model.getAllElements()); 
+}
+
+// A listener function to keep listening delete buttons
+function deleteButtonListener(){
+  const gridRowBox = document.querySelector('.grid-row');
+  if(gridRowBox){
+    // listen delete buttons
+    let deleteButtons = document.querySelectorAll('.delete');
+    Object.entries(deleteButtons).forEach(([key, val]) => {
+      val.addEventListener('click', () => {
+        let rowNode = val.parentNode.parentNode;
+        let rowId = rowNode.firstElementChild.innerText;
+        console.log('Row: ' + rowId + ', delete button has been clicked!');
+        model.removeElement(rowId);
+        rowNode.remove();
+        return ;
+        // parent.innerText.split('\n')[0]
+      });
+    });
+  }
+}
+
+// controller
+document.getElementById('addBtn').addEventListener('click', () => {
+  let value = document.getElementById('addListItem').value;
+  if(value != ''){
+    const node = {
+      id: value,
+      value: value
+    }
+    model.addElement(node);
+    // console.log(model.getAllElements());
+    updateDisplay(model.getAllElements());
+  }
+});
+
+
+
