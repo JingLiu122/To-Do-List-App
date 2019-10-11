@@ -14,8 +14,23 @@ class Model {
     });
   }
 
+  getElement(id){
+    return this.list.find((ele) => {
+      return ele.id === id;
+    });
+  }
+
   getAllElements(){
     return this.list;
+  }
+
+  updateElement(element){
+    this.list.forEach((item) => {
+      if(item.id == element.id){
+        item.value = element.value;
+        item.status = element.status;
+      }
+    }); 
   }
 }
 

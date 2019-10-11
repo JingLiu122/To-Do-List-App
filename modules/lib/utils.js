@@ -1,5 +1,5 @@
 // A utility function to generate a dom node
-export function domTemplate(element, btn_value, deleteHandler){
+export function domTemplate(element, btn_value, deleteHandler, moveHandler){
   // create row node
   const row_node = document.createElement('DIV');
   row_node.setAttribute("class", "grid-row");
@@ -14,11 +14,14 @@ export function domTemplate(element, btn_value, deleteHandler){
   // create col2 node
   const col_node2 = document.createElement('DIV');
   col_node2.setAttribute('class', 'grid-column');
-  // col_node2.setAttribute('id', container_id);
 
   const moveBtn = document.createElement('BUTTON');
   moveBtn.setAttribute('type', 'submit');
   moveBtn.innerHTML = btn_value;
+  moveBtn.dataset.id = element.id;
+  moveBtn.addEventListener('click', (e) => {
+    moveHandler(e.target.dataset.id);
+  });
   
   const delBtn = document.createElement('INPUT');
   delBtn.setAttribute('class', 'delete');
