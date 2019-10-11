@@ -1,14 +1,6 @@
 import Model from './modules/Model.js';
 import {domTemplate} from './modules/lib/utils.js';
 
-// const lists = [
-//   {todo: '100 push-ups'},
-//   {todo: '100 sit-ups'},
-//   {todo: '100 squats'},
-//   {todo: '10km running'},
-//   {todo: 'Read Eloquent JavaScript'}
-// ];
-
 const ToDoListsDOM = document.querySelector('#to-do-list-box');
 const CompleteListsDOM = document.querySelector("#done-list-box");
 
@@ -106,6 +98,22 @@ perform other events.
 
 let model = new Model();
 
+// controller
+document.getElementById('addBtn').addEventListener('click', () => {
+  let value = document.getElementById('addListItem').value;
+  if(value != ''){
+    const node = {
+      id: value,
+      value: value
+    }
+    model.addElement(node);
+    // console.log(model.getAllElements());
+    updateDisplay(model.getAllElements());
+  }
+});
+
+
+// handlers
 function updateDisplay(data){
   const todoListBox = document.getElementById('to-do-list-box');
   todoListBox.innerHTML = '';
@@ -125,20 +133,6 @@ function deleteHandler(id){
   model.removeElement(id);
   updateDisplay(model.getAllElements()); 
 }
-
-// controller
-document.getElementById('addBtn').addEventListener('click', () => {
-  let value = document.getElementById('addListItem').value;
-  if(value != ''){
-    const node = {
-      id: value,
-      value: value
-    }
-    model.addElement(node);
-    // console.log(model.getAllElements());
-    updateDisplay(model.getAllElements());
-  }
-});
 
 
 
