@@ -155,7 +155,6 @@ function moveHandler(id){
   }
   
   model.updateElement(element);
-  // console.log(model.getAllElements());
   updateDisplay(model.getAllElements());
 }
 
