@@ -119,33 +119,11 @@ function updateDisplay(data){
   });
 }
 
+// A delete handler function to remove element
 function deleteHandler(id){
   // console.log('Row: ' + e.target.dataset.id + ', delete button has been clicked!');
-  // model.removeElement(element.id);
-  // console.log(model.getAllElements());
-  // row_node.remove();
   model.removeElement(id);
   updateDisplay(model.getAllElements()); 
-}
-
-// A listener function to keep listening delete buttons
-function deleteButtonListener(){
-  const gridRowBox = document.querySelector('.grid-row');
-  if(gridRowBox){
-    // listen delete buttons
-    let deleteButtons = document.querySelectorAll('.delete');
-    Object.entries(deleteButtons).forEach(([key, val]) => {
-      val.addEventListener('click', () => {
-        let rowNode = val.parentNode.parentNode;
-        let rowId = rowNode.firstElementChild.innerText;
-        console.log('Row: ' + rowId + ', delete button has been clicked!');
-        model.removeElement(rowId);
-        rowNode.remove();
-        return ;
-        // parent.innerText.split('\n')[0]
-      });
-    });
-  }
 }
 
 // controller
