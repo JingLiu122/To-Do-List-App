@@ -7,13 +7,12 @@ const model = new Model();
 document.getElementById('addBtn').addEventListener('click', () => {
   let value = document.getElementById('addListItem').value;
   if(value != ''){
-    const node = {
-      id: value,
+    const element = {
+      id: cuid(),
       value: value,
       status: 'todo',
     }
-    model.addElement(node);
-    // console.log(model.getAllElements());
+    model.addElement(element);
     updateDisplay(model.getAllElements());
   }
 });
@@ -46,6 +45,7 @@ function updateDisplay(data){
 // A delete handler function to remove element
 function deleteHandler(id){
   // console.log('Row: ' + e.target.dataset.id + ', delete button has been clicked!');
+  // console.log(`Row: ${e.target.dataset.id}, delete button has been clicked!`);
   model.removeElement(id);
   updateDisplay(model.getAllElements()); 
 }
@@ -62,5 +62,3 @@ function moveHandler(id){
   model.updateElement(element);
   updateDisplay(model.getAllElements());
 }
-
-

@@ -6,6 +6,7 @@ class Model {
 
   addElement(element){
     this.list.push(element);
+    localStorage.setItem("todos", JSON.stringify([...this.list]));
   }
 
   removeElement(id){
